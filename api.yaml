@@ -1,0 +1,312 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Forum server."
+  version: "1.0.0"
+  title: "Anof1r's Forum"
+tags:
+- name: "topic"
+  description: "Forum topics"
+- name: "statics"
+- name: "poll"
+paths:
+  /topics?time={number}&version={number}:
+    get:
+      tags:
+      - "poll"
+      summary: "Long polling request for getting topics"
+      description: "Get all topics"
+      operationId: "poll"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/topic"
+        "309":
+          description: "Not Modified"
+  /topic:
+    put:
+      tags:
+      - "topic"
+      summary: "Add new forum topic"
+      description: "Put topic"
+      operationId: "updatePet"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "topic object that needs to be added to array"
+        required: true
+        schema:
+          $ref: "#/definitions/PutTopic"
+      responses:
+        "400":
+          description: "Invalid data supplied"
+        "201":
+          description: "topic created"
+  /topics:
+    get:
+      tags:
+      - "topic"
+      summary: "Show all topics"
+      description: "Show topics"
+      operationId: "getTopics"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "topic object that needs to be added to array"
+        required: true
+        schema:
+          $ref: "#/definitions/topics"
+      responses:
+        "400":
+          description: "Invalid data supplied"
+        "201":
+          description: "topic created"
+  /topic/{topicHeader}:
+    delete:
+      tags:
+      - "topic"
+      summary: "Delete topic"
+      description: "Delete topic"
+      operationId: "deletetopic"
+      responses:
+        "405":
+          description: "Not allowed"
+        "404":
+          description: "topic not found"
+        "200":
+          description: "topic deleted"
+    get:
+      tags:
+      - "topic"
+      summary: "Return topic"
+      description: "Show topic"
+      operationId: "gettopic"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/topic"
+        "404":
+          description: "topic not found"
+  /topic/{topicHeader}/comment:
+    put:
+      tags:
+      - "topic"
+      summary: "Add new comment"
+      description: "Add new comment for topic"
+      operationId: "addComment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "comment object"
+        required: true
+        schema:
+          $ref: "#/definitions/commentToPut"
+      responses:
+        "400":
+          description: "Invalid data supplied"
+        "201":
+          description: "topic created"
+  /topic/comment/{commentId}:
+    delete:
+      tags:
+      - "topic"
+      summary: "Delete comment"
+      description: "Delete comment"
+      operationId: "deleteComment"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "comment not found"
+    get:
+      tags:
+      - "topic"
+      summary: "Get comment"
+      description: "Get comment"
+      operationId: "getComment"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/commentToGet"
+          description: "successful operation"
+        "404":
+          description: "comment not found"
+    post:
+      tags:
+      - "topic"
+      summary: "Update comment"
+      description: "Update comment for topic"
+      operationId: "UpdateComment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "comment object"
+        required: true
+        schema:
+          $ref: "#/definitions/commentToPost"
+      responses:
+        "400":
+          description: "Invalid data supplied"
+        "201":
+          description: "topic created"
+  /:
+    get:
+      tags:
+      - "statics"
+      summary: "Forum main page"
+      description: "Forum page"
+      operationId: "getForumPage"
+      produces:
+      - "text/html"
+      responses:
+        "200":
+          description: "ok"
+        "400":
+          description: "Invalid status value"
+definitions:
+  topic:
+    type: "object"
+    properties:
+      topicHeader:
+        type: "string"
+        example: "first_topic"
+      topicAuthor:
+        type: "string"
+        example: "Anof1r"
+      topicSummary:
+        type: "string"
+        example: "topic summary about modifying cycle for extra style"
+      date:
+        type: "integer"
+        example: "16072918392"
+      comments:
+        type: array
+        items:
+          $ref : "#/definitions/comment"
+      version:
+        type: "integer"
+        example: "0"
+  topics:
+    type: array
+    items:
+      $ref : "#/definitions/topic"
+  comment:
+    type: object
+    properties:
+      commentId:
+        type: "number"
+        example: 0
+      author:
+        type: "string"
+        example: "Denis"
+      date:
+        type: "integer"
+        example: 16072918392
+      text:
+        type: "string"
+        example: "First comment by Denis"
+  commentToPut:
+    type: object
+    properties:
+      author:
+        type: "string"
+        example: "Denis"
+      text:
+        type: "string"
+        example: "First comment by Denis"
+  commentToPost:
+    type: object
+    properties:
+      text:
+        type: "string"
+        example: "First comment by Denis"
+      author:
+        type: "string"
+        example: "Denis"
+  commentToGet:
+    type: object
+    properties:
+      text:
+        type: "string"
+        example: "First comment by Denis"
+      author:
+        type: "string"
+        example: "Denis"
+      commentId:
+        type: "string"
+        example: "ae23d760f127085520aa81bc4589a360"
+      date:
+        type: "integer"
+        example: 1658216228374
+  deleteTopic:
+    type: "object"
+    properties:
+      author:
+        type: "string"
+        example: "Anof1r"
+  deleteComment:
+    type: "object"
+    properties:
+      author:
+        type: "string"
+        example: "Anof1r"
+  UpdateTopic:
+    type: "object"
+    properties:
+      topicHeader:
+        type: "string"
+        example: "first_topic"
+      topicAuthor:
+        type: "string"
+        example: "Anof1r"
+      topicSummary:
+        type: "string"
+        example: "topic summary about modifying cycle for extra style"
+  PutTopic:
+    type: "object"
+    properties:
+      topicHeader:
+        type: "string"
+        example: "first_topic"
+      topicAuthor:
+        type: "string"
+        example: "Anof1r"
+      topicSummary:
+        type: "string"
+        example: "topic summary about modifying cycle for extra style"
+  dummy:
+    type: "object"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

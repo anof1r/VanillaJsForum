@@ -1,0 +1,45 @@
+.topic {
+    border: double;
+    padding: 20px;
+    font-size: 1.50em;
+    margin: 10px;
+}
+.forumHeader {
+    text-align: center;
+}
+.topicHeader {
+    text-decoration: underline;
+    font-style: italic;
+}
+.topicDescription {
+    margin: 10px;
+}
+.topicAuthor {
+    font-style: italic;
+}
+.comments{
+    border: outset;
+}
+.comments li {
+    list-style: none;
+    padding: 1.5px;
+    margin: 5px;
+    background: beige;
+}
+.commentsHeader {
+    padding-left: 20px;
+    margin: 10px;
+}
+.userName {
+    font-size: 1em;
+}
+.deleteButton {
+    background-color: white;
+    color: black;
+    border: 2px solid #f51b1b; /* Green */
+    transition-duration: 0.4s;
+}
+.deleteButton:hover {
+    background-color: #f51b1b; /* Green */
+    color: white;
+  }
